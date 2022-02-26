@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Singleton App',
+        title: 'States App',
         initialRoute: 'page1',
         routes: {
           'page1': (_) => Page1Page(),
