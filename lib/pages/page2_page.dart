@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:singleton/models/user.dart';
+import 'package:singleton/services/user_service.dart';
 
 class Page2Page extends StatelessWidget {
   const Page2Page({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final userSerivice = Provider.of<UserService>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Page 2'),
@@ -17,7 +21,14 @@ class Page2Page extends StatelessWidget {
               style: TextStyle(color: Colors.white),
             ),
             color: Colors.blue,
-            onPressed: () {},
+            onPressed: () {
+              final newUser = User(
+                age: 25,
+                professions: ['Tenedor', 'comedor'],
+                name: 'Daniel',
+              );
+              userSerivice.user = newUser;
+            },
           ),
           MaterialButton(
             child: const Text(
@@ -25,7 +36,9 @@ class Page2Page extends StatelessWidget {
               style: TextStyle(color: Colors.white),
             ),
             color: Colors.blue,
-            onPressed: () {},
+            onPressed: () {
+              userSerivice.changeAge(999);
+            },
           ),
           MaterialButton(
             child: const Text(
@@ -33,7 +46,19 @@ class Page2Page extends StatelessWidget {
               style: TextStyle(color: Colors.white),
             ),
             color: Colors.blue,
-            onPressed: () {},
+            onPressed: () {
+              userSerivice.addPro();
+            },
+          ),
+          MaterialButton(
+            child: const Text(
+              'remove user',
+              style: TextStyle(color: Colors.white),
+            ),
+            color: Colors.blue,
+            onPressed: () {
+              userSerivice.removeUser();
+            },
           ),
         ]),
       ),
