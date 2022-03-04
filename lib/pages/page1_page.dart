@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:singleton/bloc/user/user_cubit.dart';
+import 'package:singleton/models/user.dart';
 
 class Page1Page extends StatelessWidget {
   @override
@@ -7,7 +10,21 @@ class Page1Page extends StatelessWidget {
       appBar: AppBar(
         title: Text('Page 1'),
       ),
-      body: InfoUser(),
+      body: BlocBuilder<UserCubit, UserState>(
+        builder: (_, state) {
+          if (state is UserInitial) {
+            return const Center(
+              child: Text('No data'),
+            );
+          }
+          if (state is UserActive) {
+            return InfoUser(user: state.user!);
+          }
+          return Center(
+            child: Text('Error'),
+          );
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.pushNamed(context, 'page2'),
         child: Icon(Icons.arrow_forward),
@@ -19,8 +36,9 @@ class Page1Page extends StatelessWidget {
 class InfoUser extends StatelessWidget {
   const InfoUser({
     Key? key,
+    required this.user,
   }) : super(key: key);
-
+  final User user;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,7 +47,7 @@ class InfoUser extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
+        children: [
           Text(
             'General',
             style: TextStyle(
@@ -39,13 +57,13 @@ class InfoUser extends StatelessWidget {
           ),
           Divider(),
           ListTile(
-            title: Text('Name'),
+            title: Text('Name: ${user.name}'),
           ),
           ListTile(
-            title: Text('Age'),
+            title: Text('Age: ${user.age}'),
           ),
           Text(
-            'Ocupations',
+            'Ocupations ${user.professions!.length.toString()}',
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
